@@ -1,8 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, ScrollView } from 'react-native';
-import { TextInput, Button, Text, HelperText } from 'react-native-paper';
+import {
+  TextInput,
+  Button,
+  Text,
+  HelperText,
+  ActivityIndicator,
+} from 'react-native-paper';
 import styles from './styles';
 import { useForm, Controller } from 'react-hook-form';
+import { AuthContext } from '../../contexts/authContext/auth';
 
 const Login = (): JSX.Element => {
   const {
@@ -16,7 +23,7 @@ const Login = (): JSX.Element => {
     },
   });
 
-  const onSubmit = (data: any) => console.log(data);
+  const { signIn, signInState } = useContext(AuthContext);
 
   return (
     <View style={styles.loginContainer}>
@@ -61,6 +68,7 @@ const Login = (): JSX.Element => {
                 style={styles.passwordInput}
                 mode="outlined"
                 label="Senha"
+                secureTextEntry={true}
                 value={value}
                 onChangeText={onChange}
                 onBlur={onBlur}
@@ -78,8 +86,9 @@ const Login = (): JSX.Element => {
           <Button
             style={styles.loginButton}
             mode="contained"
-            onPress={handleSubmit(onSubmit)}>
-            Login
+            onPress={handleSubmit(signIn)}
+            disabled={signInState.loading}>
+            {signInState.loading ? <ActivityIndicator /> : 'Login'}
           </Button>
         </View>
       </ScrollView>

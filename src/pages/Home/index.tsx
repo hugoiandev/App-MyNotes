@@ -1,19 +1,16 @@
 import { View, Text, Button } from 'react-native';
-import React from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useContext } from 'react';
+import { AuthContext } from '../../contexts/authContext/auth';
 
 const Home = (): JSX.Element => {
-  const removeAccessToken = async () => {
-    await AsyncStorage.removeItem('@access_token');
-  };
+  const { signOut } = useContext(AuthContext);
 
   return (
     <View>
       <Text>Ola mundo!</Text>
       <Button
         onPress={() => {
-          removeAccessToken();
-          // dispatch(getToken({ email, password }));
+          signOut();
         }}
         title="Aperte!"
       />
