@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { View, ScrollView } from 'react-native';
 import {
   TextInput,
@@ -10,11 +10,17 @@ import {
 import styles from './styles';
 import { useForm, Controller } from 'react-hook-form';
 import { AuthContext } from '../../contexts/authContext/auth';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-const Login = (): JSX.Element => {
+interface LoginProps {
+  navigation: NativeStackNavigationProp<any>;
+}
+
+const Login = ({ navigation }: LoginProps): JSX.Element => {
   const {
     control,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -23,7 +29,13 @@ const Login = (): JSX.Element => {
     },
   });
 
-  const { signIn, signInState } = useContext(AuthContext);
+  const { signIn, signInState, signUpState } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (signUpState.email) {
+      setValue('email', signUpState.email);
+    }
+  }, [setValue, signUpState.email]);
 
   return (
     <View style={styles.loginContainer}>
@@ -59,8 +71,6 @@ const Login = (): JSX.Element => {
             control={control}
             rules={{
               required: true,
-              pattern:
-                /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#])[0-9a-zA-Z$*&@#]{8,}$/,
             }}
             name="password"
             render={({ field: { value, onChange, onBlur } }) => (
@@ -72,16 +82,12 @@ const Login = (): JSX.Element => {
                 value={value}
                 onChangeText={onChange}
                 onBlur={onBlur}
+                error={errors.password ? true : false}
               />
             )}
           />
           {errors.password && (
-            <>
-              <HelperText type="error">8 caracteres no mínimo.</HelperText>
-              <HelperText type="error">1 Letra Maiúscula no mínimo.</HelperText>
-              <HelperText type="error">1 Número no mínimo.</HelperText>
-              <HelperText type="error">1 Símbolo no mínimo: $*&@#.</HelperText>
-            </>
+            <HelperText type="error">Campo obrigatório.</HelperText>
           )}
           <Button
             style={styles.loginButton}
@@ -89,6 +95,11 @@ const Login = (): JSX.Element => {
             onPress={handleSubmit(signIn)}
             disabled={signInState.loading}>
             {signInState.loading ? <ActivityIndicator /> : 'Login'}
+          </Button>
+          <Button
+            onPress={() => navigation.navigate('Register')}
+            style={styles.registerButton}>
+            Registrar
           </Button>
         </View>
       </ScrollView>

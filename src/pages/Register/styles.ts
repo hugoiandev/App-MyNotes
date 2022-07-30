@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-  loginContainer: {
+  registerContainer: {
     flex: 1,
     paddingHorizontal: 20,
   },
@@ -12,24 +12,23 @@ const styles = StyleSheet.create({
   containerTitle: {
     marginBottom: 60,
   },
-  loginTitle: {
+  registerTitle: {
     fontSize: 50,
     fontFamily: 'Montserrat-Regular',
     textAlign: 'center',
   },
+  lastNameInput: {
+    marginTop: 10,
+  },
   emailInput: {
-    marginBottom: 10,
+    marginTop: 10,
   },
   passwordInput: {
-    marginTop: 5,
-    marginBottom: 15,
-  },
-  loginButton: {
     marginTop: 10,
-    paddingVertical: 5,
   },
   registerButton: {
-    marginTop: 5,
+    marginTop: 15,
+    paddingVertical: 5,
   },
 });
 
