@@ -6,6 +6,7 @@ import Login from '../pages/Login';
 import Home from '../pages/Home';
 import { ActivityIndicator } from 'react-native-paper';
 import { View } from 'react-native';
+import Register from '../pages/Register';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -31,6 +32,7 @@ const TaskRoutes = (): JSX.Element => {
       ) : (
         <Stack.Navigator initialRouteName="Login">
           <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Register" component={Register} />
         </Stack.Navigator>
       )}
     </>

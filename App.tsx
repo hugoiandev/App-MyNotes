@@ -11,17 +11,21 @@ import 'react-native-gesture-handler';
 import React from 'react';
 import { SafeAreaView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
+import { Provider } from 'react-native-paper';
 import TaskRoutes from './src/routes/routes';
 import AuthProvider from './src/contexts/authContext/auth';
+import styles from './styles/styles';
 
 const App = (): JSX.Element => {
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <AuthProvider>
-        <NavigationContainer>
-          <TaskRoutes />
-        </NavigationContainer>
-      </AuthProvider>
+    <SafeAreaView style={styles.safeAreaView}>
+      <NavigationContainer>
+        <AuthProvider>
+          <Provider>
+            <TaskRoutes />
+          </Provider>
+        </AuthProvider>
+      </NavigationContainer>
     </SafeAreaView>
   );
 };
