@@ -1,12 +1,12 @@
 import { View, Text } from 'react-native';
 import React from 'react';
 
-const Home = (): JSX.Element => {
+const Done = () => {
   return (
     <View>
-      <Text>Ola mundo!</Text>
+      <Text>DoneTasks</Text>
     </View>
   );
 };
 
-export default Home;
+export default Done;
