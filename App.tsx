@@ -14,6 +14,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
 import TaskRoutes from './src/routes/routes';
 import AuthProvider from './src/contexts/authContext/auth';
+import TasksProvider from './src/contexts/tasksContext';
 import styles from './styles/styles';
 
 const theme = {
@@ -28,9 +29,11 @@ const App = (): JSX.Element => {
     <SafeAreaView style={styles.safeAreaView}>
       <NavigationContainer>
         <AuthProvider>
-          <PaperProvider theme={theme}>
-            <TaskRoutes />
-          </PaperProvider>
+          <TasksProvider>
+            <PaperProvider theme={theme}>
+              <TaskRoutes />
+            </PaperProvider>
+          </TasksProvider>
         </AuthProvider>
       </NavigationContainer>
     </SafeAreaView>

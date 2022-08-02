@@ -29,14 +29,14 @@ const TaskRoutes = (): JSX.Element => {
         </View>
       ) : authState.isAuthenticated ? (
         <Drawer.Navigator>
-          <Drawer.Screen name="Home" component={Home} />
-          <Drawer.Screen name="Done" component={Done} />
-          <Drawer.Screen name="Profile" component={Profile} />
+          <Drawer.Screen name="Tarefas" component={Home} />
+          <Drawer.Screen name="Concluidas" component={Done} />
+          <Drawer.Screen name="Perfil" component={Profile} />
         </Drawer.Navigator>
       ) : (
         <Stack.Navigator initialRouteName="Login">
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="Register" component={Register} />
+          <Stack.Screen name="Entrar" component={Login} />
+          <Stack.Screen name="Registrar" component={Register} />
         </Stack.Navigator>
       )}
     </>
