@@ -7,6 +7,8 @@ import Home from '../pages/Home';
 import { ActivityIndicator } from 'react-native-paper';
 import { View } from 'react-native';
 import Register from '../pages/Register';
+import Profile from '../pages/Profile';
+import Done from '../pages/Done';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -27,12 +29,14 @@ const TaskRoutes = (): JSX.Element => {
         </View>
       ) : authState.isAuthenticated ? (
         <Drawer.Navigator>
-          <Drawer.Screen name="Home" component={Home} />
+          <Drawer.Screen name="Tarefas a fazer" component={Home} />
+          <Drawer.Screen name="Concluidas" component={Done} />
+          <Drawer.Screen name="Perfil" component={Profile} />
         </Drawer.Navigator>
       ) : (
         <Stack.Navigator initialRouteName="Login">
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="Register" component={Register} />
+          <Stack.Screen name="Entrar" component={Login} />
+          <Stack.Screen name="Registrar" component={Register} />
         </Stack.Navigator>
       )}
     </>

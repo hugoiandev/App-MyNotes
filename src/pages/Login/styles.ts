@@ -1,10 +1,6 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-  loginContainer: {
-    flex: 1,
-    paddingHorizontal: 20,
-  },
   scrollViewContainer: {
     flexGrow: 1,
     justifyContent: 'center',

@@ -11,6 +11,7 @@ import styles from './styles';
 import { useForm, Controller } from 'react-hook-form';
 import { AuthContext } from '../../contexts/authContext/auth';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import Container from '../../components/Container';
 
 interface LoginProps {
   navigation: NativeStackNavigationProp<any>;
@@ -38,7 +39,7 @@ const Login = ({ navigation }: LoginProps): JSX.Element => {
   }, [setValue, signUpState.email]);
 
   return (
-    <View style={styles.loginContainer}>
+    <Container>
       <ScrollView contentContainerStyle={styles.scrollViewContainer}>
         <View>
           <View style={styles.containerTitle}>
@@ -103,7 +104,7 @@ const Login = ({ navigation }: LoginProps): JSX.Element => {
           </Button>
         </View>
       </ScrollView>
-    </View>
+    </Container>
   );
 };
 

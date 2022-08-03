@@ -1,16 +1,12 @@
 import { ScrollView } from 'react-native';
-import { ActivityIndicator, List } from 'react-native-paper';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import Container from '../../components/Container';
-import { TasksContext } from '../../contexts/tasksContext';
+import { ActivityIndicator, List } from 'react-native-paper';
 import ListItem from '../../components/ListItem';
+import { TasksContext } from '../../contexts/tasksContext';
 
-const Home = (): JSX.Element => {
-  const { getTasks, tasksState, updateStatusTask } = useContext(TasksContext);
-
-  useEffect(() => {
-    getTasks();
-  }, [getTasks]);
+const Done = () => {
+  const { tasksState, updateStatusTask } = useContext(TasksContext);
 
   return (
     <Container>
@@ -20,7 +16,7 @@ const Home = (): JSX.Element => {
             <ActivityIndicator />
           ) : (
             tasksState.tasks.map(({ _id, name, description, finished }) => {
-              if (!finished) {
+              if (finished) {
                 return (
                   <ListItem
                     key={_id}
@@ -40,4 +36,4 @@ const Home = (): JSX.Element => {
   );
 };
 
-export default Home;
+export default Done;
