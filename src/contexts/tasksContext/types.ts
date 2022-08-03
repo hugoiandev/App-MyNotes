@@ -9,6 +9,7 @@ type TaskType = {
 interface TasksContextTypes {
   getTasks: () => Promise<void>;
   tasksState: { loading: boolean; error: string | null; tasks: TaskType[] };
+  updateStatusTask: (taskId: string) => Promise<void>;
 }
 
 export type { TaskType };

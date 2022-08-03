@@ -8,15 +8,16 @@ interface ListItemProps {
   title: string;
   description: string;
   finished?: boolean;
+  checkBox: () => void;
 }
 
-const ListItem = ({ _id, title, description, finished }: ListItemProps) => {
+const ListItem = ({ _id, title, description, finished, checkBox }: ListItemProps) => {
   return (
     <>
       <List.Item
         left={() => (
           <Checkbox
-            onPress={() => console.log('Checkbox clicado!')}
+            onPress={checkBox}
             uncheckedColor="white"
             status={finished ? 'checked' : 'unchecked'}
           />

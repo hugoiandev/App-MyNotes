@@ -6,7 +6,7 @@ import ListItem from '../../components/ListItem';
 import { TasksContext } from '../../contexts/tasksContext';
 
 const Done = () => {
-  const { tasksState } = useContext(TasksContext);
+  const { tasksState, updateStatusTask } = useContext(TasksContext);
 
   return (
     <Container>
@@ -24,6 +24,7 @@ const Done = () => {
                     title={name}
                     description={description}
                     finished={finished}
+                    checkBox={() => updateStatusTask(_id)}
                   />
                 );
               }

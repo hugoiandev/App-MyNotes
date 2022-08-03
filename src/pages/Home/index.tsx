@@ -6,7 +6,7 @@ import { TasksContext } from '../../contexts/tasksContext';
 import ListItem from '../../components/ListItem';
 
 const Home = (): JSX.Element => {
-  const { getTasks, tasksState } = useContext(TasksContext);
+  const { getTasks, tasksState, updateStatusTask } = useContext(TasksContext);
 
   useEffect(() => {
     getTasks();
@@ -24,9 +24,11 @@ const Home = (): JSX.Element => {
                 return (
                   <ListItem
                     key={_id}
+                    _id={_id}
                     title={name}
                     description={description}
                     finished={finished}
+                    checkBox={() => updateStatusTask(_id)}
                   />
                 );
               }

@@ -8,6 +8,7 @@ import React, {
 } from 'react';
 import api from '../../services/api';
 import TasksContextTypes, { TaskType } from './types';
+import { Alert } from 'react-native';
 
 export const TasksContext = createContext({} as TasksContextTypes);
 
@@ -44,12 +45,24 @@ const TasksProvider = ({ children }: TaskProviderProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const updateStatusTask = useCallback(async (taskId: string) => {
+    try {
+      await api.patch(`/task/${taskId}`);
+      getTasks();
+    } catch (err) {
+      Alert.alert('Ocorreu um erro', 'Ocorreu um erro ao atualizar a taréfa.', [
+        { text: 'Ok' }
+      ]);
+    }
+  }, []);
+
   const value = useMemo(() => {
     return {
       getTasks,
       tasksState,
+      updateStatusTask
     };
-  }, [getTasks, tasksState]);
+  }, [getTasks, tasksState, updateStatusTask]);
 
   return (
     <TasksContext.Provider value={value}>{children}</TasksContext.Provider>
