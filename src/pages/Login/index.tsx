@@ -98,7 +98,7 @@ const Login = ({ navigation }: LoginProps): JSX.Element => {
             {signInState.loading ? <ActivityIndicator /> : 'Login'}
           </Button>
           <Button
-            onPress={() => navigation.navigate('Register')}
+            onPress={() => navigation.navigate('Registrar')}
             style={styles.registerButton}>
             Registrar
           </Button>

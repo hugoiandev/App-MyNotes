@@ -22,6 +22,9 @@ const TasksProvider = ({ children }: TaskProviderProps) => {
     error: string | null;
     tasks: TaskType[];
   }>({ loading: false, error: null, tasks: [] });
+  const [updateTaskState, setUpdateTaskState] = useState<{
+    loading: boolean;
+  }>({ loading: false });
 
   const getTasks = useCallback(async () => {
     setTasksState({ ...tasksState, loading: true });
@@ -51,18 +54,75 @@ const TasksProvider = ({ children }: TaskProviderProps) => {
       getTasks();
     } catch (err) {
       Alert.alert('Ocorreu um erro', 'Ocorreu um erro ao atualizar a taréfa.', [
-        { text: 'Ok' }
+        { text: 'Ok' },
       ]);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const deleteTask = useCallback(async (taskId: string) => {
+    try {
+      await api.delete(`/task/${taskId}`);
+      Alert.alert('Sucesso', 'Sua tarefa foi deletada.', [
+        {
+          text: 'Ok',
+        },
+      ]);
+      getTasks();
+    } catch (err) {
+      Alert.alert('Ocorreu um erro', 'Ocorreu um erro ao deletar a taréfa.', [
+        {
+          text: 'Ok',
+        },
+      ]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const updateTask = useCallback(
+    async (taskId: string, task: { name: string; description: string }) => {
+      setUpdateTaskState({ ...updateTaskState, loading: true });
+      try {
+        await api.put(`task/${taskId}`, task);
+        setUpdateTaskState({ ...updateTaskState, loading: false });
+        Alert.alert('Sucesso', 'Tarefa atualizada.', [
+          {
+            text: 'Ok',
+          },
+        ]);
+        getTasks();
+      } catch (err) {
+        const { response } = err as AxiosError;
+        const { message } = response?.data as { message: string };
+        setUpdateTaskState({ ...updateTaskState, loading: false });
+        Alert.alert('Ocorreu um erro', message, [
+          {
+            text: 'Ok',
+          },
+        ]);
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
 
   const value = useMemo(() => {
     return {
       getTasks,
       tasksState,
-      updateStatusTask
+      updateStatusTask,
+      deleteTask,
+      updateTask,
+      updateTaskState,
     };
-  }, [getTasks, tasksState, updateStatusTask]);
+  }, [
+    getTasks,
+    tasksState,
+    updateStatusTask,
+    deleteTask,
+    updateTask,
+    updateTaskState,
+  ]);
 
   return (
     <TasksContext.Provider value={value}>{children}</TasksContext.Provider>
