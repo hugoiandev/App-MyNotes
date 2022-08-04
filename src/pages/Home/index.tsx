@@ -1,12 +1,13 @@
 import { ScrollView } from 'react-native';
-import { ActivityIndicator, List } from 'react-native-paper';
+import { ActivityIndicator, FAB, List } from 'react-native-paper';
 import React, { useContext, useEffect } from 'react';
 import Container from '../../components/Container';
 import { TasksContext } from '../../contexts/tasksContext';
 import ListItem from '../../components/ListItem';
+import styles from './styles';
 
 const Home = (): JSX.Element => {
-  const { getTasks, tasksState, updateStatusTask } = useContext(TasksContext);
+  const { getTasks, tasksState } = useContext(TasksContext);
 
   useEffect(() => {
     getTasks();
@@ -28,7 +29,6 @@ const Home = (): JSX.Element => {
                     title={name}
                     description={description}
                     finished={finished}
-                    checkBox={() => updateStatusTask(_id)}
                   />
                 );
               }
@@ -36,6 +36,7 @@ const Home = (): JSX.Element => {
           )}
         </List.Section>
       </ScrollView>
+      <FAB color="white" style={styles.floatButton} icon="plus" />
     </Container>
   );
 };

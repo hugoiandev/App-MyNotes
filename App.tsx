@@ -10,24 +10,34 @@
 import 'react-native-gesture-handler';
 import React from 'react';
 import { SafeAreaView } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
+import {
+  NavigationContainer,
+  DefaultTheme as NavigationDefaultTheme,
+} from '@react-navigation/native';
+import {
+  Provider as PaperProvider,
+  DefaultTheme as PaperDefaultTheme,
+} from 'react-native-paper';
 import TaskRoutes from './src/routes/routes';
 import AuthProvider from './src/contexts/authContext/auth';
 import TasksProvider from './src/contexts/tasksContext';
 import styles from './styles/styles';
 
 const theme = {
-  ...DefaultTheme,
+  ...NavigationDefaultTheme,
+  ...PaperDefaultTheme,
   colors: {
-    ...DefaultTheme.colors,
+    ...NavigationDefaultTheme.colors,
+    ...PaperDefaultTheme.colors,
+    primary: '#d16666',
+    text: '#2c4251',
   },
 };
 
 const App = (): JSX.Element => {
   return (
     <SafeAreaView style={styles.safeAreaView}>
-      <NavigationContainer>
+      <NavigationContainer theme={theme}>
         <AuthProvider>
           <TasksProvider>
             <PaperProvider theme={theme}>

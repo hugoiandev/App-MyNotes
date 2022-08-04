@@ -37,10 +37,15 @@ const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
       api.defaults.headers.common.Authorization = `Bearer ${JSON.parse(token)}`;
       setAuthState({ ...authState, loading: true });
       try {
-        const { data } = await api.post<{ auth: boolean }>('/session/validate');
+        const { data } = await api.post<{
+          auth: boolean;
+          info: { name: string; email: string };
+        }>('/session/validate');
 
         if (data.auth) {
           setAuthState({ ...authState, isAuthenticated: true, loading: false });
+          await AsyncStorage.setItem('@name', data.info.name);
+          await AsyncStorage.setItem('@email', data.info.email);
         }
       } catch (err) {
         const { response } = err as AxiosError;
@@ -73,6 +78,7 @@ const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
             '@access_token',
             JSON.stringify(data.token),
           );
+          api.defaults.headers.common.Authorization = `Bearer ${data.token}`;
           setSignInState({ ...signInState, token: data.token, loading: false });
           setAuthState({ ...authState, isAuthenticated: true, loading: false });
         }
