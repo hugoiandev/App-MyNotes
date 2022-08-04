@@ -17,17 +17,23 @@ interface TaskProviderProps {
 }
 
 const TasksProvider = ({ children }: TaskProviderProps) => {
-  const [tasksState, setTasksState] = useState<{
+  const [getTasksState, setGetTasksState] = useState<{
     loading: boolean;
     error: string | null;
     tasks: TaskType[];
   }>({ loading: false, error: null, tasks: [] });
+
+  const [newTaskState, setNewTaskState] = useState<{
+    loading: boolean;
+    error: string | null;
+  }>({ loading: false, error: null });
+
   const [updateTaskState, setUpdateTaskState] = useState<{
     loading: boolean;
   }>({ loading: false });
 
   const getTasks = useCallback(async () => {
-    setTasksState({ ...tasksState, loading: true });
+    setGetTasksState({ ...getTasksState, loading: true });
     try {
       const { data } = await api.get<
         {
@@ -39,14 +45,34 @@ const TasksProvider = ({ children }: TaskProviderProps) => {
         }[]
       >('/task');
 
-      setTasksState({ ...tasksState, loading: false, tasks: data });
+      setGetTasksState({ ...getTasksState, loading: false, tasks: data });
     } catch (err) {
       const { response } = err as AxiosError;
       const { message } = response?.data as { message: string };
-      setTasksState({ ...tasksState, loading: false, error: message });
+      setGetTasksState({ ...getTasksState, loading: false, error: message });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const newTask = useCallback(
+    async (task: { name: string; description: string }) => {
+      setNewTaskState({ ...newTaskState, loading: true });
+      try {
+        await api.post('/task', task);
+        setNewTaskState({ ...newTaskState, loading: false });
+        getTasks();
+      } catch (err) {
+        setNewTaskState({ ...newTaskState, loading: false });
+        Alert.alert('Erro', 'Ocorreu um erro ao tentar criar tarefa', [
+          {
+            text: 'Ok',
+          },
+        ]);
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
 
   const updateStatusTask = useCallback(async (taskId: string) => {
     try {
@@ -109,19 +135,23 @@ const TasksProvider = ({ children }: TaskProviderProps) => {
   const value = useMemo(() => {
     return {
       getTasks,
-      tasksState,
+      getTasksState,
       updateStatusTask,
       deleteTask,
       updateTask,
       updateTaskState,
+      newTask,
+      newTaskState,
     };
   }, [
     getTasks,
-    tasksState,
+    getTasksState,
     updateStatusTask,
     deleteTask,
     updateTask,
     updateTaskState,
+    newTask,
+    newTaskState,
   ]);
 
   return (

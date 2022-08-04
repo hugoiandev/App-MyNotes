@@ -6,16 +6,16 @@ import ListItem from '../../components/ListItem';
 import { TasksContext } from '../../contexts/tasksContext';
 
 const Done = () => {
-  const { tasksState, updateStatusTask } = useContext(TasksContext);
+  const { getTasksState } = useContext(TasksContext);
 
   return (
     <Container>
       <ScrollView>
         <List.Section>
-          {tasksState.loading ? (
+          {getTasksState.loading ? (
             <ActivityIndicator />
           ) : (
-            tasksState.tasks.map(({ _id, name, description, finished }) => {
+            getTasksState.tasks.map(({ _id, name, description, finished }) => {
               if (finished) {
                 return (
                   <ListItem
@@ -24,7 +24,6 @@ const Done = () => {
                     title={name}
                     description={description}
                     finished={finished}
-                    checkBox={() => updateStatusTask(_id)}
                   />
                 );
               }
