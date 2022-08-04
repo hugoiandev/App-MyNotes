@@ -8,7 +8,9 @@ type TaskType = {
 
 interface TasksContextTypes {
   getTasks: () => Promise<void>;
-  tasksState: { loading: boolean; error: string | null; tasks: TaskType[] };
+  newTask: (task: { name: string; description: string }) => Promise<void>;
+  newTaskState: { loading: boolean; error: string | null };
+  getTasksState: { loading: boolean; error: string | null; tasks: TaskType[] };
   updateStatusTask: (taskId: string) => Promise<void>;
   deleteTask: (taskId: string) => Promise<void>;
   updateTask: (
